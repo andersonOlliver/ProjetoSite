@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<f:metadata>
+		<o:viewParam name="id" value="#{cadastroNoticiaBean.noticia}" />
+		<f:viewAction action="#{cadastroNoticiaBean.prepararCadastro}" />
+	</f:metadata>
+
+	<ui:define name="titulo">Cadastro de noticias</ui:define>
+
+	<ui:define name="corpo">
+		<h1>Cadastro de Noticias</h1>
+
+		<h:form id="form">
+			<p:messages autoUpdate="true" showDetail="false" showSummary="true" />
+
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton value="Salvar" icon="ui-icon-disk"
+						action="#{cadastroNoticiaBean.salvar}" update="@form" />
+				</p:toolbarGroup>
+			</p:toolbar>
+			<div class="ui-fluid">
+				<h:panelGrid columns="2" columnClasses="grid">
+
+					<p:panelGrid id="form_cadastro" columns="1" layout="grid"
+						style="margin-top: 20px; margin-bottom: 40px; top:0px"
+						columnClasses="ui-grid-col-12" styleClass="panelgrid-noborder">
+
+						<p:outputLabel value="Titulo da notícia" for="noticia_titulo" />
+						<p:autoComplete id="noticia_titulo"
+							completeMethod="#{cadastroNoticiaBean.pesquisarTitulos}"
+							value="#{cadastroNoticiaBean.noticia.titulo}" />
+
+						<p:outputLabel value="Data que irá ao ar"
+							for="noticia_data_entrada" />
+						<p:calendar id="noticia_data_entrada" size="12"
+							pattern="dd/MM/yyyy"
+							value="#{cadastroNoticiaBean.noticia.dataPostagem}">
+						</p:calendar>
+
+						<p:outputLabel value="Data que sairá ao ar"
+							for="noticia_data_saida" />
+						<p:calendar id="noticia_data_saida" size="12" pattern="dd/MM/yyyy"
+							value="#{cadastroNoticiaBean.noticia.dataRetirada}" />
+
+						<p:outputLabel value="Estado da noticia" for="noticia_estado" />
+						<p:selectOneButton id="noticia_estado"
+							value="#{cadastroNoticiaBean.noticia.estadoAtual}">
+
+							<f:selectItems value="#{cadastroNoticiaBean.estadosNoticias}"
+								var="item" itemValue="#{item}" itemLabel="#{item.estado}" />
+						</p:selectOneButton>
+
+						<p:outputLabel value="Imagem para destaque"
+							for="noticia_caminho_imagem" />
+						<p:inputText id="noticia_caminho_imagem"
+							value="#{cadastroNoticiaBean.noticia.caminhoImagemMenor}" />
+
+
+						<br />
+					</p:panelGrid>
+
+					<h:panelGrid style="margin-letf : 40px">
+						<h:outputLabel value="Conteúdo da notícia" for="noticia_conteudo" />
+						<p:editor id="noticia_conteudo" width="800" height="800"
+							value="#{cadastroNoticiaBean.noticia.conteudo}" />
+					</h:panelGrid>
+
+				</h:panelGrid>
+
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

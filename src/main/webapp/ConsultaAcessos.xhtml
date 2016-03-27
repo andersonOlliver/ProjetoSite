@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Consuta Acessos</ui:define>
+
+	<ui:define name="corpo">
+		<h1>Consulta Acessos</h1>
+
+		<h:form>
+			<h:panelGrid columns="3">
+				<p:inputText value="#{consultaNavegacaoBean.filtro.chaveUsuario}"
+					id="usuario" />
+
+				<p:commandButton value="Consultar" update="tbl" process="@form" />
+			</h:panelGrid>
+
+			<p:dataTable value="#{consultaNavegacaoBean.model}" lazy="true"
+				var="navegacao" border="1" cellpadding="2" cellspacing="0"
+				paginator="true" paginatorPosition="bottom" rows="5" id="tbl">
+
+				<p:column headerText="Nome">
+					<h:outputText value="#{navegacao.usuario.nome}"/>
+				</p:column>
+				<p:column headerText="Prefixo">
+					<h:outputText value="#{navegacao.usuario.prefixo}"/>
+				</p:column>
+				<p:column headerText="Pagina">
+					<h:outputText value="#{navegacao.pagina}"/>
+				</p:column>
+				<p:column headerText="Data/Hora Acesso">
+					<h:outputText value="#{navegacao.data}">
+						<f:convertDateTime type="date" locale="pt_BR" timeZone="America/Sao_Paulo" />
+					</h:outputText>
+					
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

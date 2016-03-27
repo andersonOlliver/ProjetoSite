@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Consuta de lançamentos</ui:define>
+
+	<ui:define name="corpo">
+		<f:metadata>
+			<f:viewAction action="#{consultaNoticiasBean.consultar}" />
+		</f:metadata>
+		<h1>Consulta de Noticias</h1>
+		<h:form id="form">
+			<p:messages showDetail="false" showSummary="true" autoUpdate="true" />
+
+			<p:dataTable value="#{consultaNoticiasBean.noticias}" var="noticia"
+				paginator="true" rows="5" paginatorPosition="bottom">
+				<p:column headerText="Pessoa">
+					<h:outputText value="#{noticia.usuarioCadastro.nome}" />
+				</p:column>
+				<p:column headerText="Título da Notícia">
+					<h:outputText value="#{noticia.titulo}" />
+				</p:column>
+				<p:column headerText="Estado da notícia">
+					<h:outputText value="#{noticia.estadoAtual}" />
+				</p:column>
+				<p:column headerText="Data de entrada">
+					<h:outputText value="#{noticia.dataPostagem}" />
+				</p:column>
+				<p:column headerText="Data expiração">
+					<h:outputText value="#{noticia.dataRetirada}" />
+				</p:column>
+				<p:column>
+					<p:button icon="ui-icon-pencil" title="Editar"
+						outcome="/CadastroNoticias">
+						<f:param name="id" value="#{noticia.idNoticia}" />
+					</p:button>
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						process="@this" update="@form"
+						action="#{consultaNoticiasBean.excluir}">
+						<f:setPropertyActionListener value="#{noticia}"
+							target="#{consultaNoticiasBean.noticiaSelecionada}"></f:setPropertyActionListener>
+
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
